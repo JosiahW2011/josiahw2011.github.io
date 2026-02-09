@@ -29,7 +29,7 @@
     const loadingBar = document.querySelector("#unity-loading-bar");
     const progressBarFull = document.querySelector("#unity-progress-bar-full");
 
-    // This is the specific path for the 3D Bowling Build
+    // Define the absolute Build path for 3D Bowling
     const buildUrl = "https://cdn.jsdelivr.net/gh/bubbls/youtube-playables@main/3d-bowling/Build";
     
     const config = {
@@ -42,7 +42,7 @@
       productVersion: "1.0",
     };
 
-    // Dynamically load the loader script to prevent the "parser-blocking" warning
+    // Use a dynamic script loader to prevent "parser-blocking" warnings
     const script = document.createElement("script");
     script.src = buildUrl + "/3DBowling.loader.js";
     
@@ -52,7 +52,7 @@
       }).then((unityInstance) => {
         loadingBar.style.display = "none";
       }).catch((message) => {
-        console.error("Unity Load Error:", message);
+        console.error("Unity Initialization Error:", message);
       });
     };
 
