@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-WX5VS54ZDW');
+  </script>
+  <base href="https://cdn.jsdelivr.net/gh/bubbls/youtube-playables@main/3d-bowling/">
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>3D Bowling</title>
+  <link rel="stylesheet" href="TemplateData/style.css">
+  <script src="https://cdn.jsdelivr.net/gh/bubbls/youtube-playables@main/ytgame.js"></script>
+</head>
+
+<body>
+  <div id="unity-container" class="unity-desktop">
+    <canvas id="unity-canvas" width=100% height=100% tabindex="-1"></canvas>
+    <div id="unity-loading-bar">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+    <div id="unity-warning"> </div>
+  </div>
+
+  <script src="unarchiver.min.js"></script>
+  <script>
+    var container = document.querySelector("#unity-container");
+    var canvas = document.querySelector("#unity-canvas");
+    var loadingBar = document.querySelector("#unity-loading-bar");
+    var progressBarFull = document.querySelector("#unity-progress-bar-full");
+    var warningBanner = document.querySelector("#unity-warning");
+
+    function unityShowBanner(msg, type) {
+        // Banner logic remains the same
+    }
+
+    // UPDATED: Changed file names to match the 3D Bowling build files
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/3DBowling.loader.js";
+    var config = {
+      dataUrl: buildUrl + "/3DBowling.data.unityweb",
+      frameworkUrl: buildUrl + "/3DBowling.framework.js.unityweb",
+      codeUrl: buildUrl + "/3DBowling.wasm.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "Garawell",
+      productName: "3D Bowling",
+      productVersion: "1.0",
+      showBanner: unityShowBanner,
+    };
+
+    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+      var meta = document.createElement('meta');
+      meta.name = 'viewport';
+      meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
+      document.getElementsByTagName('head')[0].appendChild(meta);
+      container.className = "unity-mobile";
+      canvas.className = "unity-mobile";
+    } else {
+      canvas.style.width = "100%";
+      canvas.style.height = "100%";
+    }
+
+    loadingBar.style.display = "block";
+
+    // Standard Unity Loader Logic
+    function InitUnitySection() {
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = () => {
+        createUnityInstance(canvas, config, (progress) => {
+          progressBarFull.style.width = 100 * progress + "%";
+          }).then((unityInstance) => {
+            loadingBar.style.display = "none";
+          }).catch((message) => {
+            console.error(message);
+          });
+      };
+      document.body.appendChild(script);
+    }
+
+    InitUnitySection();
+  </script>
+</body>
+</html>
