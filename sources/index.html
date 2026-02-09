@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>minesweeper for itch.io</title>
+</head>
+<body style="margin: 0; padding: 0;">
+<div id="sprites" style="display: none;">
+	<img id="tiles" src="./spr/tiles.png"></img>
+	<img id="lost" src="./spr/lose.png"></img>
+	<img id="won" src="./spr/win.png"></img>
+	<img id="numbers" src="./spr/numbers.png"></img>
+	<img id="restart" src="./spr/restart.png"></img>
+</div>
+<canvas style="margin: 0; padding: 0;">(need to be full-screen)</canvas>
+<script src="./Tile.js"></script>
+<script src="./sprite.js"></script>
+<script src="./UI.js"></script>
+<script src="./gameFunctions.js"></script>
+<script src="./gameMath.js"></script>
+<script>
+var s = {}
+function makeSprites(){
+	try{
+		let tiles = document.getElementById("tiles")
+		s.tile_num = [
+			new Sprite(tiles, 0, 0, 25, 25),	//0
+			new Sprite(tiles, 25, 0, 25, 25),	//1
+			new Sprite(tiles, 50, 0, 25, 25),	//2
+			new Sprite(tiles, 75, 0, 25, 25),	//3
+			new Sprite(tiles, 100, 0, 25, 25),	//4
+			new Sprite(tiles, 0, 25, 25, 25),	//5
+			new Sprite(tiles, 25, 25, 25, 25),	//6
+			new Sprite(tiles, 50, 25, 25, 25),	//7
+			new Sprite(tiles, 75, 25, 25, 25),	//8
+		]
+		s.mine = new Sprite(tiles, 0, 50, 25, 25)
+		s.mine_exploded = new Sprite(tiles, 25, 50, 25, 25)
+		s.tile = new Sprite(tiles, 50, 50, 25, 25)
+		s.flag = new Sprite(tiles, 75, 50, 25, 25)
+		s.question = new Sprite(tiles, 100, 50, 25, 25)
+
+		s.lost = new Sprite(document.getElementById("lost"), 0, 0, 200, 50)
+		s.won = new Sprite(document.getElementById("won"), 0, 0, 200, 50)
+		s.restart = new Sprite(document.getElementById("restart"), 0, 0, 150, 50)
+		
+		let numbers = document.getElementById("numbers")
+		s.numbers = [
+			new Sprite(numbers, 0, 0, 25, 50),
+			new Sprite(numbers, 25, 0, 25, 50),
+			new Sprite(numbers, 50, 0, 25, 50),
+			new Sprite(numbers, 75, 0, 25, 50),
+			new Sprite(numbers, 100, 0, 25, 50),
+			new Sprite(numbers, 125, 0, 25, 50),
+			new Sprite(numbers, 150, 0, 25, 50),
+			new Sprite(numbers, 175, 0, 25, 50),
+			new Sprite(numbers, 200, 0, 25, 50),
+			new Sprite(numbers, 225, 0, 25, 50)
+		]
+		s.minus = new Sprite(numbers, 250, 0, 25, 50)
+	}catch(error){
+		console.log(error)
+	}
+}
+makeSprites()
+game.start()
+</script>
+<script>
+
+</script>
+</body>
+</html>
