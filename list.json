@@ -13,5 +13,30 @@
     "name": "3",
     "image": "images/eaglercraft.jpg",
     "source": "sources/eaglercraft.html"
+  },
+  {
+    "name": "4",
+    "image": "images/eaglercraft.jpg",
+    "source": "sources/eaglercraftx.html"
+  },
+  {
+    "name": "5",
+    "image": "images/offline paradise.jpg",
+    "source": "sources/offline paradise.html"
+  },
+  {
+    "name": "6",
+    "image": "images/tetris.jpg",
+    "source": "sources/tetris.html"
+  },
+  {
+    "name": "7",
+    "image": "images/tic-tac-toe.jpg",
+    "source": "sources/tic-tac-toe.html"
+  },
+  {
+    "name": "8",
+    "image": "images/you are jeff bezos.jpg",
+    "source": "sources/you are jeff bezos.html"
   }
 ]
