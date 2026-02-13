@@ -15,6 +15,11 @@
     "source": "sources/eaglercraft.html"
   },
   {
+    "name": "9",
+    "image": "images/retro.jpg",
+    "source": "sources/retro.html"
+  },
+  {
     "name": "4",
     "image": "images/eaglercraft.jpg",
     "source": "sources/eaglercraftx.html"
