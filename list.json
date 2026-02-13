@@ -1,0 +1,17 @@
+[
+  {
+    name: "1",
+    "image": "images/baldi's basics.jpg",
+    "source": "sources/baldi's basics.html"
+  },
+  {
+    "name": "2",
+    "image": "images/bridge race.jpg",
+    "source": "sources/bridge race.html"
+  },
+  {
+    "name": "3",
+    "image": "images/eaglercraft.jpg",
+    "source": "sources/eaglercraft.html"
+  }
+]
