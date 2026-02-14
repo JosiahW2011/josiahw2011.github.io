@@ -30,6 +30,16 @@
     "source": "sources/retrobowl.html"
   },
   {
+    "name": "11",
+    "image": "images/slope.jpg",
+    "source": "sources/slope.html"
+  },
+  {
+    "name": "12",
+    "image": "images/space wars.jpg",
+    "source": "sources/space wars.html"
+  },
+  {
     "name": "6",
     "image": "images/tetris.jpg",
     "source": "sources/tetris.html"
