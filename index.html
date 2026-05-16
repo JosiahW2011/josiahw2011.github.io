@@ -1,27 +1,261 @@
-<html style="scroll-behavior: smooth;">
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Welcome to my webpage!</title>
-        <link href="style.css" rel="stylesheet">
-    </head>
-    <body style=>
-        <div id="header-div">
-            <img src="https://img.freepik.com/free-photo/multiethnic-group-happy-business-people-having-meeting-modern-office_637285-199.jpg?semt=ais_hybrid&w=740&q=80"
-            alt-text="People in office" id="header-img"></img>
-            <h1 id="header-text">Welcome to my webpage!</h1>
-        </div>
-        </br>
-        <div id="div-body">
-            <h2 id="body-text-1">"I've had approximately one year of experience in web development and 3 to 4 months of operations with C++. Additionally, I have studied and worked with lower-leveled languages, including Assembly programming."</h2>
-        </div>
-        <footer id="contact-footer">
-            <h2>Need to conact for requests, FAQ, etc? Select a link below to begin!</h2>
-            <div id="contact-grid">
-                <div><a href="mailto:josiahwidener11@gmail.com?subject=Business%20Inquiry:%20"><span style="background-image: linear-gradient(to right, #3174e3, #c5221f, #ea4335, #fbbc04, #34a853, #3174e3); -webkit-background-clip: text; background-clip: text; color: transparent;">Shoot me a gmail</span></a></div>
-                <div><a href="https://github.com/JosiahW2011" target="_blank" style="text-shadow: 0px 0 4px #fff; color: #000;">Github profile</a></div>
-                <div><a href="https://www.youtube.com/@TJWA_0x1B" style="color: #ff0000; text-shadow: 0px 0 4px #aa0000;" target="_blank">YouTube channel</a></div>
-                <div><a href="https://www.tiktok.com/@tjwa.2011" target="_blank" style="color: #fff; text-shadow: -2px 0 1px #00ffff, 2px 0 1px #ff00ff;">Tiktok Account</a></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Josiah | Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
+        }
+
+        .orb {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(56, 189, 248, 0.03);
+            filter: blur(80px);
+            animation: float 20s infinite alternate;
+        }
+
+        @keyframes float {
+            from { transform: translate(-10%, -10%); }
+            to { transform: translate(10%, 10%); }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #38bdf8;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="selection:bg-sky-500/30">
+
+    <div class="animated-bg">
+        <div class="orb" style="top: -10%; left: -10%;"></div>
+        <div class="orb" style="bottom: -10%; right: -10%; background: rgba(129, 140, 248, 0.03);"></div>
+    </div>
+
+    <nav class="fixed top-0 w-full z-50 bg-[#020617]/40 backdrop-blur-xl border-b border-white/5">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <span class="text-2xl font-extrabold tracking-tighter">JOSIAH<span class="text-sky-400">.</span></span>
+            <div class="hidden md:flex gap-10 text-sm font-semibold uppercase tracking-widest text-slate-400">
+                <a href="#home" class="nav-link hover:text-white">Home</a>
+                <a href="#about" class="nav-link hover:text-white">About</a>
+                <a href="#experience" class="nav-link hover:text-white">Experience</a>
+                <a href="#contact" class="nav-link hover:text-white">Contact</a>
             </div>
-        </footer>
-    </body>
+        </div>
+    </nav>
+
+    <main>
+        <section id="home" class="min-h-screen flex items-center justify-center px-6 pt-20">
+            <div class="max-w-5xl mx-auto text-center">
+                <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-sky-500/20 bg-sky-500/5 text-sky-400 text-xs font-bold uppercase tracking-[0.2em]">
+                    Available for projects
+                </div>
+                <h1 class="text-6xl md:text-8xl font-extrabold mb-8 leading-[1.1] tracking-tight">
+                    Building the <span class="gradient-text">Future</span><br/>of Software.
+                </h1>
+                <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+                    I am a 14-year-old developer specializing in systems programming with C++ and crafting immersive interfaces for the web.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <a href="#experience" class="bg-sky-500 hover:bg-sky-400 text-white px-10 py-4 rounded-xl font-bold transition-all transform hover:scale-105 shadow-[0_20px_50px_rgba(56,189,248,0.2)]">
+                        Explore My Work
+                    </a>
+                    <a href="https://github.com/josiahw2011" target="_blank" class="bg-white/5 hover:bg-white/10 text-white px-10 py-4 rounded-xl font-bold transition-all border border-white/10 flex items-center justify-center gap-3">
+                        <i class="fab fa-github"></i> GitHub Profile
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-32 relative">
+            <div class="max-w-6xl mx-auto px-6">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="glass-card p-10 rounded-3xl transition-all duration-500">
+                        <div class="w-12 h-12 bg-sky-500/10 rounded-2xl flex items-center justify-center text-sky-400 mb-6 border border-sky-500/20">
+                            <i class="fas fa-cake-candles text-xl"></i>
+                        </div>
+                        <h3 class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-2">Background</h3>
+                        <p class="text-3xl font-bold mb-1">14 Years Old</p>
+                        <p class="text-slate-400 font-medium">Entering age 15</p>
+                    </div>
+
+                    <div class="glass-card p-10 rounded-3xl transition-all duration-500">
+                        <div class="w-12 h-12 bg-indigo-500/10 rounded-2xl flex items-center justify-center text-indigo-400 mb-6 border border-indigo-500/20">
+                            <i class="fas fa-bolt text-xl"></i>
+                        </div>
+                        <h3 class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-2">Total Time</h3>
+                        <p class="text-3xl font-bold mb-1">1+ Year</p>
+                        <p class="text-slate-400 font-medium">Active Development</p>
+                    </div>
+
+                    <div class="glass-card p-10 rounded-3xl transition-all duration-500">
+                        <div class="w-12 h-12 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-400 mb-6 border border-purple-500/20">
+                            <i class="fas fa-bullseye text-xl"></i>
+                        </div>
+                        <h3 class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-2">Vision</h3>
+                        <p class="text-3xl font-bold mb-1">C++ & Web</p>
+                        <p class="text-slate-400 font-medium">Full-stack Mastery</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-32 px-6 bg-white/[0.01]">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-20">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">Technical Proficiency</h2>
+                    <p class="text-slate-500">Breakdown of my journey through different technologies.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-10">
+                    <div class="glass-card p-10 rounded-[2rem] relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-globe text-7xl"></i>
+                        </div>
+                        <span class="text-sky-400 font-bold text-sm">7 Months Intensive</span>
+                        <h3 class="text-2xl font-bold mt-2 mb-4">Web Development</h3>
+                        <p class="text-slate-400 leading-relaxed mb-8">
+                            Crafting modular, responsive web applications. Expert focus on layout architecture and interactive UI components.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-4 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs font-bold">HTML5</span>
+                            <span class="px-4 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs font-bold">CSS3</span>
+                            <span class="px-4 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs font-bold">JS</span>
+                            <span class="px-4 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs font-bold">Tailwind</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-10 rounded-[2rem] relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
+                            <i class="fas fa-microchip text-7xl"></i>
+                        </div>
+                        <span class="text-indigo-400 font-bold text-sm">6 Months Specialization</span>
+                        <h3 class="text-2xl font-bold mt-2 mb-4">C++ Systems</h3>
+                        <p class="text-slate-400 leading-relaxed mb-8">
+                            Mastering memory management, object-oriented paradigms, and performance-critical logic for robust applications.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-4 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs font-bold">C++</span>
+                            <span class="px-4 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs font-bold">OOP</span>
+                            <span class="px-4 py-1.5 rounded-lg bg-white/5 border border-white/5 text-xs font-bold">Memory Management</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact" class="py-32 px-6 border-t border-white/5 relative">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl font-bold mb-8">Get In Touch</h2>
+            <p class="text-slate-400 mb-12 text-lg">Interested in working together or just want to chat about code?</p>
+            
+            <div class="flex flex-wrap justify-center gap-8 mb-16">
+                <a href="https://github.com/josiahw2011" class="group flex flex-col items-center gap-4">
+                    <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl group-hover:bg-white/10 transition-all">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-500">GitHub</span>
+                </a>
+                <a href="mailto:your-email@example.com" class="group flex flex-col items-center gap-4">
+                    <div class="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl group-hover:bg-white/10 transition-all text-sky-400">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-500">Email</span>
+                </a>
+            </div>
+
+            <div class="text-slate-600 text-xs font-bold uppercase tracking-[0.3em]">
+                &copy; <span id="year"></span> JOSIAH W. &bull; BUILT WITH PRECISION
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.glass-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            observer.observe(el);
+        });
+    </script>
+</body>
 </html>
