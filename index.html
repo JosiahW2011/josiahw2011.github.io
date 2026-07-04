@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="icon" type="image/x-icon" href="Logo.png">
+		<script src="/Assets/Textures.js"></script>
+		<title>OpenCraft vAlpha_03</title>
+	</head>
+	<body style="margin: 0px;">
+		<div id="ingame_ui" style="
+				position: absolute;
+				top: 0%;
+				left: 0%;
+				width: 100%;
+				height: 100%;
+			">
+			<img id="selected-icon" style="
+				position: absolute;
+				top: 0%;
+				left: 0%;
+				width: 64px;
+				height: 64px;
+				pointer-events: none;
+				user-select: none;
+				margin: 12px;
+			" src="/Assets/Images/Grass-ITEM.png"></img>
+			<div style="
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				width: 16px;
+				height: 16px;
+				pointer-events: none;
+				user-select: none;
+			">
+				<div style="position: absolute; top: 0px; left: 8px; width: 2px; height: 16px; background-color: #aaaaaa;"></div>
+				<div style="position: absolute; top: 8px; left: 0px; width: 16px; height: 2px; background-color: #aaaaaa;"></div>
+				<div style="position: absolute; top: 7px; left: 0px; width: 16px; height: 2px; background-color: #cacaca;"></div>
+				<div style="position: absolute; top: 0px; left: 7px; width: 2px; height: 16px; background-color: #cacaca;"></div>
+			</div>
+			<div id="settings_ui" style="
+				position: absolute;
+				top: 0%;
+				left: 0%;
+				width: 100%;
+				height: 100%;
+				background: rgba(0.5,0.5,0.5,0.75);
+			">
+				<label for="shadow_quality" style="color: #ffffff; font-size: 32px;">Shadow Quality:</label>
+				<select id="shadow_quality">
+					<option value="1024" selected>1024</option>
+					<option value="2048">2048</option>
+					<option value="4096">4096</option>
+				</select>
+				<br/><label for="sunShadow" style="color: #ffffff; font-size: 32px;">Shadows?</label><input type="checkbox" id="sunShadow" checked>
+				<br/><button id="saveWorld">Save World to (.txt) file</button>
+				<br/><button id="loadWorld">Load World from (.txt) file</button>
+			</div>
+		</div>
+		<script type="module">
+			import * as three from '/Assets/three.module.js';
+			import { PointerLockControls } from '/Assets/PointerLockControls.js';
+			import { Chunk } from '/Assets/Blocks.js';
+			import { Player } from '/Assets/Player.js';
+
+			// Sky + Scene
+			const scene = new three.Scene();
+			scene.background = new three.Color(0x80a0ff);
+			
+			// Player + Renderer setup
+			const camera = new three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+			const renderer = new three.WebGLRenderer({ antialias: false, depth: true });
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.body.appendChild(renderer.domElement);
+			renderer.shadowMap.enabled = true;
+			renderer.shadowMap.type = three.PCFSoftShadowMap;
+			let block_index = 3;
+			let selected_icon = document.getElementById("selected-icon");
+
+			// Position camera
+			camera.position.set(4, 12, 4);
+
+			// Sun + Ambient Lighting
+			const ambient_light = new three.AmbientLight(0xffffff, 0.4);
+			scene.add(ambient_light);
+
+			const sun = new three.DirectionalLight(0xffffff, 1.4);
+			sun.position.set(32, 40, 32);
+			sun.target.position.set(16, 0, 16);
+			sun.castShadow = true;
+
+			sun.shadow.camera.left = -20;
+			sun.shadow.camera.right = 20;
+			sun.shadow.camera.top = 20;
+			sun.shadow.camera.bottom = -20;
+			sun.shadow.camera.near = 1;
+			sun.shadow.camera.far = 100;
+
+			sun.shadow.mapSize.width = 1024;
+			sun.shadow.mapSize.height = 1024;
+			sun.shadow.bias = -0.0001;
+			sun.shadow.normalBias = 0.02;
+
+			scene.add(sun);
+			scene.add(sun.target);
+
+			// Lock cursor (until ESC) is pressed, and other GUI.
+			const settings_ui = document.getElementById("settings_ui");
+			settings_ui.style.visibility = "hidden";
+			let settings_active = false;
+			let shadow_quality = document.getElementById("shadow_quality");
+			let sunShadow = document.getElementById("sunShadow");
+
+			const controls = new PointerLockControls(camera, document.body);
+			document.addEventListener('click', () => {
+				if (settings_active === false) {
+					controls.lock();
+				}
+			});
+
+			document.addEventListener('keydown', (e) => {
+				if (e.key === 'Escape') {
+					settings_active = !settings_active
+					if (settings_active === false) {
+						settings_ui.style.visibility = "hidden";
+					} else {
+						settings_ui.style.visibility = "visible";
+					}
+				}
+			});
+
+			shadow_quality.addEventListener("change", () => {
+				let quality = parseInt(shadow_quality.value);
+				sun.shadow.mapSize.width = quality;
+				sun.shadow.mapSize.height = quality;
+
+				if (sun.shadow.map) {
+					sun.shadow.map.dispose();
+					sun.shadow.map = null;
+				}
+
+				renderer.shadowMap.needsUpdate = true;
+			});
+
+			sunShadow.addEventListener("change", () => {
+				sun.castShadow = sunShadow.checked;
+				shadow_quality.disabled = !sunShadow.checked;
+				renderer.shadowMap.enabled = sunShadow.checked;
+				if (!sunShadow.checked) {
+					renderer.clearTarget(sun.shadow.map);
+				}
+				spawnChunk.mesh.material.needsUpdate = true;
+				renderer.shadowMap.needsUpdate = true;
+			});
+
+			const save_world = document.getElementById("saveWorld");
+			const load_world = document.getElementById("loadWorld");
+
+			save_world.addEventListener('click', () => {
+				const worldString = spawnChunk.exportToString();
+				
+				const blob = new Blob([worldString], { type: "text/plain" });
+				const link = document.createElement("a");
+
+				link.href = URL.createObjectURL(blob);
+				link.download = "OSC_WORLD.txt";
+				
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				URL.revokeObjectURL(link.href);
+
+				alert("World was exported successfully!");
+			});
+
+			load_world.addEventListener('click', () => {
+				const fileInput = document.createElement('input');
+				fileInput.type = "file";
+				fileInput.accept = ".txt";
+				
+				fileInput.addEventListener('change', (e) => {
+					const file = e.target.files[0];
+					if (!file) return;
+
+					const reader = new FileReader();
+					reader.onload = (event) => {
+						const contents = event.target.result;
+						spawnChunk.importFromString(contents);
+						alert("World loaded successfully!");
+					};
+					reader.readAsText(file);
+				});
+
+				fileInput.click();
+			});
+
+			const spawnChunk = new Chunk(scene, three, 32, 32, 32);
+			const player = new Player(camera, controls);
+
+			const raycaster = new three.Raycaster();
+			const pointer = new three.Vector2(0, 0);
+
+			// Create wireframe for looking at blocks.
+			const frameGeo = new three.BoxGeometry(1.005, 1.005, 1.005); // +.005 to stop the Z-Index fighting
+			const edges = new three.EdgesGeometry(frameGeo);
+			const frameMat = new three.LineBasicMaterial({
+				color: 0xffffff,
+				opacity: 0.8
+			});
+
+			const selectionFrame = new three.LineSegments(edges, frameMat);
+			selectionFrame.visible = false;
+			scene.add(selectionFrame);
+
+			let targetedBlock = null;
+			let neighborBlock = null;
+
+			document.addEventListener('keydown', (event) => {
+				if (event.key === '1') {
+					block_index = 3;
+					selected_icon.src = window.GameAssets.grassItem;
+				} else if (event.key === '2') {
+					block_index = 2;
+					selected_icon.src = window.GameAssets.dirtItem;
+				} else if (event.key === '3') {
+					block_index = 1;
+					selected_icon.src = window.GameAssets.cobbleItem;
+				} else if (event.key === '4') {
+					block_index = 4;
+					selected_icon.src = window.GameAssets.oakItem;
+				} else if (event.key === '5') {
+					block_index = 5;
+					selected_icon.src = window.GameAssets.brickItem;
+				} else if (event.key === '6') {
+					block_index = 6;
+					selected_icon.src = window.GameAssets.glassItem;
+				}
+			});
+
+			function updateSelection() {
+				raycaster.setFromCamera(pointer, camera);
+
+				if (spawnChunk && spawnChunk.mesh) {
+					const intersects = raycaster.intersectObject(spawnChunk.mesh);
+					
+					if (intersects.length > 0) {
+						const hit = intersects[0];
+						
+						const targetX = Math.floor(hit.point.x - hit.face.normal.x * 0.05);
+						const targetY = Math.floor(hit.point.y - hit.face.normal.y * 0.05);
+						const targetZ = Math.floor(hit.point.z - hit.face.normal.z * 0.05);
+						targetedBlock = {x: targetX, y: targetY, z: targetZ };
+
+						const neighborX = Math.floor(hit.point.x + hit.face.normal.x * 0.05);
+						const neighborY = Math.floor(hit.point.y + hit.face.normal.y * 0.05);
+						const neighborZ = Math.floor(hit.point.z + hit.face.normal.z * 0.05);
+						neighborBlock = {x: neighborX, y: neighborY, z: neighborZ };
+
+						selectionFrame.position.set(targetX + 0.5, targetY + 0.5, targetZ + 0.5);
+						selectionFrame.visible = true;
+					} else {
+						selectionFrame.visible = false;
+						targetedBlock = null;
+						neighborBlock = null;
+					}
+				}
+			}
+
+			window.addEventListener('mousedown', (event) => {
+				if (!controls.isLocked) return;
+
+				if (targetedBlock) {
+					if (event.button === 0) { // Left-Click to remove a block
+						spawnChunk.setBlock(targetedBlock.x, targetedBlock.y, targetedBlock.z, 0);
+					} else if (event.button === 2) { // Right-Click to place a block
+						spawnChunk.setBlock(neighborBlock.x, neighborBlock.y, neighborBlock.z, block_index);
+					}
+				}
+			});
+
+			if (spawnChunk.mesh) {
+    			spawnChunk.mesh.castShadow = true;
+    			spawnChunk.mesh.receiveShadow = true;
+			}
+
+			function update() {
+				requestAnimationFrame(update);
+				player.update(spawnChunk);
+				updateSelection();
+				renderer.render(scene, camera);
+			}
+			update();
+
+			window.addEventListener('resize', () => {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize(window.innerWidth, window.innerHeight);
+			});
+		</script>
+	</body>
+</html>
